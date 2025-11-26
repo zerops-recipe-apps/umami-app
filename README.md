@@ -1,3 +1,4 @@
+<!-- #ZEROPS_REMOVE_START# -->
 # Zerops x Umami
 [Umami](https://umami.is/) makes it easy to collect, analyze, and understand your web data — while maintaining visitor privacy and data ownership. [Zerops](https://zerops.io) makes it easy to deploy Umami.
 
@@ -31,4 +32,9 @@ Base of the recipe is ready for production, the difference comes down to:
 
 Need help setting your project up? Join [Zerops Discord community](https://discord.com/invite/WDvCZ54).
 
+## Takeover and Maintenance Guide
+<!-- #ZEROPS_REMOVE_END# -->
 
+### TODO
+
+_TODO: Takeover and maintenance guide._

@@ -1,12 +1,12 @@
 zerops:
   - setup: umami
     build:
-      base: nodejs@20
+      base: nodejs@22
       envVariables:
         DATABASE_URL: ${db_connectionString}/${db_hostname}
       prepareCommands:
         - sudo apk add git
-        - npm install -g yarn@1.22.10 --force
+        - npm install -g yarn@1.22.22 --force
         - yarn global add npm-run-all
       buildCommands:
         - git clone https://github.com/umami-software/umami.git
@@ -29,18 +29,18 @@ zerops:
         - umami/~.next/static/
         - umami/~node_modules/
     run:
-      base: nodejs@20
+      base: nodejs@22
       prepareCommands:
-        - npm install -g yarn@1.22.10 --force
-      start: yarn start-docker
-      ports: 
-        - port: 3000
-          httpSupport: true
-      healthCheck:
-        httpGet:
-          port: 3000
-          path: /api/heartbeat
+        - npm install -g yarn@1.22.22 --force
       envVariables:
         NODE_ENV: production
         DATABASE_URL: ${db_connectionString}/${db_hostname}
         NEXT_TELEMETRY_DISABLED: "1"
+      ports: 
+        - port: 3000
+          httpSupport: true
+      start: yarn start-docker
+      healthCheck:
+        httpGet:
+          port: 3000
+          path: /api/heartbeat
