@@ -3,43 +3,45 @@ zerops:
     build:
       base: nodejs@22
       envVariables:
-        DATABASE_URL: ${db_connectionString}/${db_hostname}
+        DATABASE_URL: ${db_connectionString}/${db_dbName}
+        NEXT_TELEMETRY_DISABLED: 1
       prepareCommands:
-        - sudo apk add git
-        - npm install -g yarn@1.22.22 --force
-        - yarn global add npm-run-all
+        - sudo apk add --no-cache git
       buildCommands:
         - git clone https://github.com/umami-software/umami.git
-        - | 
-          cd umami
-          git checkout tags/v2.12.1
-          yarn install --frozen-lockfile
-          yarn build-docker
         - |
           cd umami
-          mv ./node_modules ./dev_node_modules
-          yarn add npm-run-all dotenv prisma semver --no-lockfile
-      deploy: 
-        - umami/~next.config.js
+          git checkout tags/v3.0.1
+          pnpm install --frozen-lockfile
+          cp docker/middleware.ts src/
+          pnpm build-docker
+      deployFiles:
         - umami/~public/
-        - umami/~package.json
         - umami/~prisma/
         - umami/~scripts/
+        - umami/~generated/
         - umami/.next/standalone/~
         - umami/~.next/static/
-        - umami/~node_modules/
+    deploy:
+      readinessCheck:
+        httpGet:
+          port: 3000
+          path: /api/heartbeat
     run:
       base: nodejs@22
-      prepareCommands:
-        - npm install -g yarn@1.22.22 --force
       envVariables:
         NODE_ENV: production
-        DATABASE_URL: ${db_connectionString}/${db_hostname}
-        NEXT_TELEMETRY_DISABLED: "1"
-      ports: 
+        DATABASE_URL: ${db_connectionString}/${db_dbName}
+        NEXT_TELEMETRY_DISABLED: 1
+      ports:
         - port: 3000
           httpSupport: true
-      start: yarn start-docker
+      initCommands:
+        - zsc scale ram +2GB 10m
+        - sleep 10s
+        - NODE_OPTIONS="--max-old-space-size=2048" pnpm add npm-run-all dotenv chalk semver prisma@6.18.0 @prisma/adapter-pg@6.18.0
+        - zsc scale ram auto
+      start: pnpm start-docker
       healthCheck:
         httpGet:
           port: 3000
