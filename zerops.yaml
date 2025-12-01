@@ -13,15 +13,16 @@ zerops:
           cd umami
           git checkout tags/v3.0.1
           pnpm install --frozen-lockfile
-          cp docker/middleware.ts src/
           pnpm build-docker
       deployFiles:
-        - umami/~public/
-        - umami/~prisma/
-        - umami/~scripts/
-        - umami/~generated/
+        # Using '~' wildcard to shorten the deployment path:
+        # https://docs.zerops.io/zerops-yaml/specification#using-wildcards
         - umami/.next/standalone/~
+        # Handles 'cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/'
+        # See: https://nextjs.org/docs/pages/api-reference/config/next-config-js/output#automatically-copying-traced-files
         - umami/~.next/static/
+        - umami/~public/
+      cache: true
     deploy:
       readinessCheck:
         httpGet:
@@ -36,12 +37,7 @@ zerops:
       ports:
         - port: 3000
           httpSupport: true
-      initCommands:
-        - zsc scale ram +2GB 10m
-        - sleep 10s
-        - NODE_OPTIONS="--max-old-space-size=2048" pnpm add npm-run-all dotenv chalk semver prisma@6.18.0 @prisma/adapter-pg@6.18.0
-        - zsc scale ram auto
-      start: pnpm start-docker
+      start: node server.js
       healthCheck:
         httpGet:
           port: 3000
