@@ -5,23 +5,26 @@ zerops:
       envVariables:
         DATABASE_URL: ${db_connectionString}/${db_dbName}
         NEXT_TELEMETRY_DISABLED: 1
+        UMAMI_RELEASE_TAG: ${RUNTIME_UMAMI_RELEASE_TAG:-v3.0.1}
       prepareCommands:
         - sudo apk add --no-cache git
       buildCommands:
-        - git clone https://github.com/umami-software/umami.git
+        - git clone --branch $UMAMI_RELEASE_TAG --single-branch https://github.com/umami-software/umami.git
         - |
           cd umami
-          git checkout tags/v3.0.1
           pnpm install --frozen-lockfile
           pnpm build-docker
       deployFiles:
         # Using '~' wildcard to shorten the deployment path:
         # https://docs.zerops.io/zerops-yaml/specification#using-wildcards
         - umami/.next/standalone/~
-        # Handles 'cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/'
+        # Handles 'cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/' command
+        # required for standalone Next.js builds.
         # See: https://nextjs.org/docs/pages/api-reference/config/next-config-js/output#automatically-copying-traced-files
         - umami/~.next/static/
         - umami/~public/
+      # Reuse global pnpm 'node_modules' cache,
+      # which significantly speeds up 'pnpm install'.
       cache: true
     deploy:
       readinessCheck:
@@ -37,6 +40,7 @@ zerops:
       ports:
         - port: 3000
           httpSupport: true
+      # Simply start the standalone Next.js app.
       start: node server.js
       healthCheck:
         httpGet:
