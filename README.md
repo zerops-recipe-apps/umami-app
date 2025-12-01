@@ -31,12 +31,33 @@ Base of the recipe is ready for production, the difference comes down to:
 
 Need help setting your project up? Join [Zerops Discord community](https://discord.com/invite/WDvCZ54).
 
-## Takeover and Maintenance Guide
+## Knowledge Base
 
-<!-- #ZEROPS_EXTRACT_START:maintenance-guide# -->
+<!-- #ZEROPS_EXTRACT_START:knowledge-base# -->
 
-### TODO
+### Next.js Standalone Build Artifact
 
-_TODO: Takeover and maintenance guide._
+The Umami app is built and deployed in "standalone" mode, see: [output: 'standalone'](https://nextjs.org/docs/pages/api-reference/config/next-config-js/output).
+That means the development and maintenance scripts (e.g. `update-tracker`) are not available in the runtime container by default.
 
-<!-- #ZEROPS_EXTRACT_END:maintenance-guide# -->
+To enable this functionality, follow these steps:
+1. [SSH into the runtime container](https://docs.zerops.io/references/networking/ssh) or open service web shell in GUI
+2. Add some RAM for `pnpm install`:
+```shell
+zsc scale ram +2GB 10m
+
+# Wait for the scaling to apply.
+sleep 10s 
+```
+3. Install script dependencies:
+```shell
+pnpm add npm-run-all dotenv chalk semver prisma@6.18.0 @prisma/adapter-pg@6.18.0
+```
+
+After that, you should be able to run the maintenance tasks, e.g.:
+```shell
+pnpm run update-tracker
+pnpm run update-db
+```
+
+<!-- #ZEROPS_EXTRACT_END:knowledge-base# -->

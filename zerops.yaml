@@ -13,16 +13,27 @@ zerops:
         - |
           cd umami
           pnpm install --frozen-lockfile
-          pnpm build-docker
+          pnpm build
       deployFiles:
         # Using '~' wildcard to shorten the deployment path:
         # https://docs.zerops.io/zerops-yaml/specification#using-wildcards
         - umami/.next/standalone/~
+        
         # Handles 'cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/' command
         # required for standalone Next.js builds.
         # See: https://nextjs.org/docs/pages/api-reference/config/next-config-js/output#automatically-copying-traced-files
         - umami/~.next/static/
         - umami/~public/
+        
+        # Deploy files allowing for maintenance tasks
+        # right from the runtime container.
+        # Notice that some extra steps described
+        # in knowledge base section of the README.md
+        # are required to run.
+        - umami/~prisma/
+        - umami/~scripts/
+        - umami/~generated/
+
       # Reuse global pnpm 'node_modules' cache,
       # which significantly speeds up 'pnpm install'.
       cache: true
