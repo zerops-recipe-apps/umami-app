@@ -14,6 +14,6 @@ No dev iteration loop — the app clones upstream at build time. Changes in this
 
 ## Notes
 
-- Upstream pinned via `UMAMI_RELEASE_TAG` (default `v3.1.0`); override at the project level with `RUNTIME_UMAMI_RELEASE_TAG`.
+- Upstream pinned via `UMAMI_RELEASE_TAG` (default `v3.3.0`); override at the project level with `RUNTIME_UMAMI_RELEASE_TAG`.
 - Build clones `umami-software/umami` with `--single-branch`, runs `pnpm install --frozen-lockfile && pnpm build`, and deploys the Next.js `standalone` output plus `public/`, `.next/static/`, `prisma/`, `scripts/`, `generated/`.
 - This repo contains no application source — it is a pure build wrapper.
