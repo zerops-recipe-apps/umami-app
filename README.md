@@ -1,19 +1,19 @@
 # Zerops x Umami
 [Umami](https://umami.is/) makes it easy to collect, analyze, and understand your web data — while maintaining visitor privacy and data ownership. [Zerops](https://zerops.io) makes it easy to deploy Umami.
 
-![unami](https://github.com/zeropsio/recipe-shared-assets/blob/main/covers/svg/recipe-umami.svg)
+![Umami](https://github.com/zeropsio/recipe-shared-assets/blob/main/covers/svg/recipe-umami.svg)
 
 <br />
 
 ## Deploy on Zerops
-You can either click the deploy button to deploy directly on Zerops, or manually copy the [import yaml](https://github.com/zeropsio/recipe-unami/blob/main/zerops-project-import.yml) to the import dialog in the Zerops app.
+You can either click the deploy button to deploy directly on Zerops, or manually copy the [import yaml](https://github.com/zeropsio/recipes/blob/main/umami/import.yaml) to the import dialog in the Zerops app.
 
-[![Deploy on Zerops](https://github.com/zeropsio/recipe-shared-assets/blob/main/deploy-button/green/deploy-button.svg)](https://app.zerops.io/recipe/unami)
+[![Deploy on Zerops](https://github.com/zeropsio/recipe-shared-assets/blob/main/deploy-button/green/deploy-button.svg)](https://app.zerops.io/recipe/umami)
 
 <br/>
 
 ## Recipe features
-- **Unami** app running on a load balanced **Zerops Node.js** service
+- **Umami** app running on a load balanced **Zerops Node.js** service
 - Zerops **PostgreSQL 16** service as database
 - Utilization of Zerops' built-in **environment variables** system
 
