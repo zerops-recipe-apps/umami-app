@@ -5,7 +5,7 @@ zerops:
       envVariables:
         DATABASE_URL: ${db_connectionString}/${db_dbName}
         NEXT_TELEMETRY_DISABLED: 1
-        UMAMI_RELEASE_TAG: ${RUNTIME_UMAMI_RELEASE_TAG:-v3.0.1}
+        UMAMI_RELEASE_TAG: ${RUNTIME_UMAMI_RELEASE_TAG:-v3.1.0}
       prepareCommands:
         - sudo apk add --no-cache git
       buildCommands:
