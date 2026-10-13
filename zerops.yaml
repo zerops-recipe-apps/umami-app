@@ -1,7 +1,7 @@
 zerops:
   - setup: umami
     build:
-      base: nodejs@22
+      base: nodejs@24
       envVariables:
         DATABASE_URL: ${db_connectionString}/${db_dbName}
         NEXT_TELEMETRY_DISABLED: 1
@@ -43,7 +43,7 @@ zerops:
           port: 3000
           path: /api/heartbeat
     run:
-      base: nodejs@22
+      base: nodejs@24
       envVariables:
         NODE_ENV: production
         DATABASE_URL: ${db_connectionString}/${db_dbName}
